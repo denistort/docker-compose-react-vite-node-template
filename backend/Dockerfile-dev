@@ -1,0 +1,9 @@
+# Stage 1: Build the frontend with Vite
+FROM node:20 AS builder
+
+COPY package*.json ./
+RUN npm install && npm cache clean --force
+
+COPY . .
+
+CMD ["npm", "run", "development"]

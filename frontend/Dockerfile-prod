@@ -1,0 +1,20 @@
+# frontend/Dockerfile
+FROM node:20 AS builder
+
+# create application folder and assign rights to the node user
+RUN mkdir -p $WORKDIR && chown -R frontend:frontend $WORKDIR
+
+# set the working directory
+WORKDIR $WORKDIR
+
+# set the active user
+USER frontend
+
+# copy package.json from the host
+COPY --chown=frontend:frontend package.json $WORKDIR/
+
+# install application modules
+RUN npm install && npm cache clean --force
+
+# copy remaining files
+COPY --chown=frontend:frontend . .
